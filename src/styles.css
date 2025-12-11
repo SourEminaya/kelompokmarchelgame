@@ -1,0 +1,2399 @@
+/* ===========================
+   GLOBAL RESET
+=========================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none;
+}
+
+body {
+  background: #1e1e1e;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #fff;
+  overflow: hidden;
+}
+
+.app-root {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===========================
+   HEADER
+=========================== */
+.header {
+  width: 100%;
+  height: 70px;
+  background: rgba(20, 20, 20, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 25px;
+  border-bottom: 2px solid #333;
+}
+
+.header .title {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.header .left,
+.header .right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header .left div,
+.header .right div {
+  font-size: 14px;
+}
+
+#inventory-btn {
+  background: #3b82f6;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 5px;
+}
+#inventory-btn:hover {
+  background: #2563eb;
+}
+
+#auth-btn {
+  background-color: #10b981;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#auth-btn:hover {
+  background-color: #059669;
+}
+
+/* ===========================
+   MAIN LAYOUT
+=========================== */
+.main {
+  flex: 1;
+  display: flex;
+  height: calc(100vh - 70px);
+}
+
+/* ===========================
+   STATUS PANEL (LEFT)
+=========================== */
+.status {
+  width: 220px;
+  background: rgba(30, 30, 30, 0.95);
+  padding: 18px;
+  border-right: 2px solid #333;
+  overflow-y: auto;
+}
+
+.status .stat {
+  margin-bottom: 18px;
+}
+
+.status .label {
+  font-size: 14px;
+  margin-bottom: 3px;
+}
+
+.bar {
+  width: 100%;
+  height: 10px;
+  background: #444;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.bar div {
+  height: 100%;
+  background: #22c55e;
+}
+
+.inv {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+/* ===========================
+   MAP AREA
+=========================== */
+#game {
+  flex: 1;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding: 20px;
+}
+
+#map {
+  position: relative;
+  z-index: 1;
+
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-left: 10px;
+  width: 900px;
+  height: 520px;
+
+  background-image: url("./assets/Outdoor/bg/utama.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: top left;
+
+  padding: 0;
+}
+
+.loc {
+  position: absolute;
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+  color: #fff;
+  width: 80px;
+  pointer-events: none;
+}
+
+.loc .koko img {
+  width: 80px;
+  height: 80px;
+  pointer-events: none;
+}
+
+#player {
+  position: absolute;
+  width: 36px;
+  height: 52px;
+  z-index: 5;
+}
+
+.player-avatar {
+  width: 36px;
+  height: 52px;
+  pointer-events: none;
+}
+
+.player-name {
+  width: 100px;
+  font-size: 12px;
+  margin-left: -34px;
+  text-align: center;
+  margin-top: -5px;
+  text-shadow: 1px 1px 3px #000;
+  pointer-events: none;
+}
+
+/* ===========================
+   DROPPED ITEMS
+=========================== */
+.dropped-item {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  font-size: 22px;
+  cursor: pointer;
+  transition: transform 0.1s;
+  z-index: 6;
+}
+
+.dropped-item:hover {
+  transform: scale(1.3);
+}
+/* ===========================
+   CONTROLS
+=========================== */
+.controls {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+
+  display: flex;
+  flex-direction: column;
+  margin-top: 0;
+  align-items: center;
+  z-index: 9999;
+}
+
+.controls .mid {
+  display: flex;
+  justify-content: center;
+}
+
+.arrow {
+  background: #444;
+  width: 50px;
+  height: 50px;
+  margin: 3px;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  border-radius: 8px;
+  color: #fff;
+}
+.arrow:hover {
+  background: #555;
+}
+
+/* ===========================
+   ACTION PANEL
+=========================== */
+.action-panel {
+  position: absolute;
+  right: 20px;
+  bottom: 100px;
+  width: 240px;
+  background: rgba(25, 25, 25, 0.92);
+  padding: 16px;
+  border-radius: 10px;
+  border: 2px solid #444;
+  z-index: 9999;
+}
+
+.loc-actions {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.action-btn {
+  background: #3b82f6;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #fff;
+}
+.action-btn:hover {
+  background: #2563eb;
+}
+
+/* ===========================
+   INVENTORY
+=========================== */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(10, 10, 10, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9998;
+}
+
+.box {
+  background: #2a2a2a;
+  padding: 25px;
+  border-radius: 12px;
+  width: 350px;
+  text-align: center;
+}
+
+.inventory-item {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.use-btn {
+  background: #22c55e;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.use-btn:hover {
+  background: #16a34a;
+}
+
+.close-btn {
+  background: blue;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+.close-btn:hover {
+  background: purple;
+}
+
+/* ===========================
+   START SCREEN
+=========================== */
+#start-screen,
+.start-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  z-index: 10000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(0, 0, 0, 0.65);
+}
+
+.start-box h1 {
+  margin-bottom: 20px;
+}
+
+.avatar-box {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.avatar-item {
+  width: 80px;
+  padding: 6px;
+  border-radius: 10px;
+  background: #333;
+  text-align: center;
+  cursor: pointer;
+}
+.avatar-item:hover {
+  background: #444;
+}
+
+.avatar-item.selected {
+  outline: 3px solid #3b82f6;
+}
+
+.avatar-img {
+  width: 60px;
+  height: 60px;
+}
+
+.start-row {
+  margin-top: 12px;
+}
+
+#start-btn {
+  padding: 10px 20px;
+  background: #22c55e;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+#start-btn:hover {
+  background: #16a34a;
+}
+
+#player-name {
+  width: 80%;
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* ===========================================
+   GAME OVER OVERLAY
+=========================================== */
+#gameover {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.4s ease;
+}
+
+#gameover .box {
+  width: 380px;
+  padding: 25px 28px;
+  background: #1f2937;
+  border-radius: 14px;
+  color: #f8fafc;
+  text-align: center;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+  animation: scaleIn 0.35s ease;
+}
+
+#gameover h1 {
+  font-size: 32px;
+  margin-bottom: 10px;
+  font-weight: 700;
+  color: blue;
+  text-transform: uppercase;
+}
+
+#gameover-reason {
+  font-size: 17px;
+  margin-bottom: 18px;
+  opacity: 0.9;
+}
+
+/* ===========================================
+   LIFE SCORE BOX
+=========================================== */
+.life-score-box {
+  background: #111827;
+  padding: 15px 18px;
+  border-radius: 10px;
+  margin-top: 15px;
+  font-size: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.life-score-box h2 {
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 12px;
+  font-weight: 600;
+  color: #38bdf8;
+}
+
+.life-score-box div {
+  margin-bottom: 6px;
+}
+
+.life-score-box hr {
+  margin: 12px 0;
+  border: none;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* FINAL SCORE */
+.final-life-score {
+  margin-top: 10px;
+  font-size: 26px;
+  font-weight: 700;
+  color: #fde047;
+  text-shadow: 0 0 6px rgba(255, 223, 0, 0.4);
+}
+
+/* ===========================================
+   RESTART BUTTON
+=========================================== */
+#restart {
+  margin-top: 18px;
+  padding: 12px 18px;
+  background: blue;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 17px;
+  font-weight: 600;
+  width: 100%;
+  color: white;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+#restart:hover {
+  background: rgb(7, 6, 7);
+  transform: translateY(-2px);
+}
+
+#restart:active {
+  transform: scale(0.97);
+}
+
+/* ===========================================
+   ANIMATIONS
+=========================================== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ===========================
+   FLOATING MESSAGE
+=========================== */
+.random-event-msg {
+  position: fixed;
+  bottom: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  padding: 14px 20px;
+  background: rgba(40, 40, 40, 0.85);
+  border-radius: 8px;
+  font-size: 14px;
+  animation: fadeInOut 3s forwards;
+
+  white-space: nowrap;
+  z-index: 9999;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 20px);
+  }
+  10% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  90% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, 20px);
+  }
+}
+
+/* ===========================
+   LOGIN SCREEN
+=========================== */
+.login-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+.login-box {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  width: 320px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  text-align: center;
+}
+
+.login-box h2 {
+  margin-bottom: 16px;
+  font-size: 1.5rem;
+  color: #111827;
+}
+.login-box input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+}
+
+.login-box input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+}
+
+.login-btns button {
+  padding: 10px 16px;
+  margin-top: 8px;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.15s ease;
+}
+
+.login-box button:first-of-type {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.login-box button:first-of-type:hover {
+  background-color: #2563eb;
+  transform: translateY(-1px);
+}
+
+.login-box button:first-of-type:active {
+  transform: scale(0.97);
+}
+
+.login-box button:last-of-type {
+  background-color: #10b981;
+  color: white;
+  margin-left: 10px;
+}
+
+.login-box button:last-of-type:hover {
+  background-color: #059669;
+  transform: translateY(-1px);
+}
+
+.login-box button:last-of-type:active {
+  transform: scale(0.97);
+}
+
+/* ===========================
+   LOGOUT BUTTON
+=========================== */
+#logout {
+  padding: 12px 18px;
+  background-color: #ef4444;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.15s ease;
+}
+
+#logout:hover {
+  background-color: #dc2626;
+  transform: translateY(-1px);
+}
+
+#logout:active {
+  transform: scale(0.97);
+}
+
+.gameover-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 18px;
+}
+
+/* ===========================
+   HOME
+=========================== */
+
+.home-map {
+  position: relative;
+  width: 736px;
+  height: 552px;
+
+  border: 2px solid #333;
+  border-radius: 12px;
+  overflow: hidden;
+
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+
+  margin: 0;
+}
+
+.home-map .player-avatar {
+  width: 40px !important;
+  height: 60px !important;
+  position: absolute;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+
+/* ===========================
+   HOME CONTROLS
+=========================== */
+
+.home-container .controls {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 9999;
+}
+
+.home-container .controls button {
+  background: #444;
+  width: 50px;
+  height: 50px;
+  margin: 3px;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  border-radius: 8px;
+  color: #fff;
+}
+.home-container .controls button:hover {
+  background: #555;
+}
+
+/* ===========================
+   ACTION PANEL
+=========================== */
+
+.home-action-panel {
+  position: absolute;
+  right: 20px;
+  bottom: 180px;
+
+  width: 240px;
+  background: rgba(25, 25, 25, 0.92);
+  padding: 16px;
+  border-radius: 10px;
+  border: 2px solid #444;
+
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.home-action-panel .action-btn {
+  background: #3b82f6;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.home-action-panel .action-btn:hover {
+  background: #2563eb;
+}
+
+/* ===========================
+   ACTIVITY OVERLAY
+=========================== */
+
+.activity-overlay {
+  position: absolute;
+  right: 20px;
+  top: 200px;
+  width: 240px;
+
+  background: rgba(0, 0, 0, 0.85);
+  padding: 16px;
+  border-radius: 12px;
+  border: 2px solid #333;
+  margin-bottom: 10px;
+
+  text-align: center;
+  z-index: 9998;
+}
+
+.activity-overlay h2 {
+  font-size: 20px;
+  margin-bottom: 6px;
+  color: #ffe9a9;
+}
+
+.activity-overlay div {
+  font-size: 18px;
+}
+
+.fast-forward-btn {
+  margin-top: 8px;
+  padding: 6px 12px;
+  background: #ffcc4d;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+.fast-forward-btn:hover {
+  background: #ffd966;
+}
+
+/* ===========================
+   PLAYER ACTIVITY EFFECTS
+=========================== */
+.player-effect {
+  position: absolute;
+  width: 40px;
+  height: 60px;
+  pointer-events: none;
+  z-index: 120;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Bathing: Bubbles rising */
+.player-effect.bath-effect::before,
+.player-effect.bath-effect::after {
+  content: "";
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: rgba(0, 200, 255, 0.7);
+  border-radius: 50%;
+  bottom: 0;
+  animation: bath-bubbles 1.2s infinite ease-in;
+}
+.player-effect.bath-effect::after {
+  left: 10px;
+  animation-delay: 0.4s;
+}
+
+@keyframes bath-bubbles {
+  0% {
+    transform: translateY(0) scale(0.5);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateY(-20px) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-40px) scale(0.5);
+    opacity: 0;
+  }
+}
+
+/* Sleep: zZz floating above head */
+.player-effect.sleep-effect::after {
+  content: "💤";
+  font-size: 20px;
+  color: #fff;
+  animation: sleep-float 1.5s infinite;
+}
+@keyframes sleep-float {
+  0% {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-20px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-40px);
+    opacity: 0.6;
+  }
+}
+
+/* Eat: small bite pulse */
+.player-effect.eat-effect::before {
+  content: "🍽️";
+  font-size: 20px;
+  animation: eat-pulse 0.6s infinite;
+}
+@keyframes eat-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+}
+
+/* Relaxing: floating aura/halo */
+.player-effect.relax-effect {
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  top: -10px;
+  left: -10px;
+  box-shadow: 0 0 8px 2px rgba(255, 215, 0, 0.6);
+  animation: relax-aura 1.5s infinite alternate;
+}
+
+@keyframes relax-aura {
+  0% {
+    box-shadow: 0 0 8px 2px rgba(255, 215, 0, 0.6);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 16px 4px rgba(255, 215, 0, 0.8);
+    transform: scale(1.2);
+  }
+  100% {
+    box-shadow: 0 0 8px 2px rgba(255, 215, 0, 0.6);
+    transform: scale(1);
+  }
+}
+
+/* ===========================
+   MINE MAP
+=========================== */
+.mine-map {
+  position: relative;
+  width: 900px;
+  height: 520px;
+  border: 2px solid #333;
+  border-radius: 12px;
+  overflow: hidden;
+
+  background-image: url("./assets/Indoor/Mine.jpg");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+
+  margin: 0 auto;
+}
+
+/* ===========================
+   PLAYER AVATAR 
+=========================== */
+.mine-map .player-avatar {
+  width: 40px !important;
+  height: 60px !important;
+  position: absolute;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+
+/* ===========================
+   CONTROLS
+=========================== */
+.mine-container .controls {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 9999;
+}
+
+.mine-container .controls button {
+  background: #444;
+  width: 50px;
+  height: 50px;
+  margin: 3px;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  border-radius: 8px;
+  color: #fff;
+}
+.mine-container .controls button:hover {
+  background: #555;
+}
+
+/* ===========================
+   ACTION PANEL 
+=========================== */
+.mine-action-panel {
+  position: absolute;
+  right: 20px;
+  bottom: 180px;
+  width: 240px;
+  background: rgba(25, 25, 25, 0.92);
+  padding: 16px;
+  border-radius: 10px;
+  border: 2px solid #444;
+
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mine-action-panel .action-btn {
+  background: #3b82f6;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.mine-action-panel .action-btn:hover {
+  background: #2563eb;
+}
+
+/* ===========================
+   ACTIVITY OVERLAY
+=========================== */
+.mine-activity-overlay {
+  position: absolute;
+  right: 20px;
+  top: 200px;
+  width: 240px;
+
+  background: rgba(0, 0, 0, 0.85);
+  padding: 16px;
+  border-radius: 12px;
+  border: 2px solid #333;
+  margin-bottom: 10px;
+
+  text-align: center;
+  z-index: 9998;
+}
+
+.mine-activity-overlay h2 {
+  font-size: 20px;
+  margin-bottom: 6px;
+  color: #ffe9a9;
+}
+
+.mine-activity-overlay div {
+  font-size: 18px;
+}
+
+/* ===========================
+   PLAYER ACTIVITY EFFECTS 
+=========================== */
+.mine-player-effect {
+  position: absolute;
+  width: 40px;
+  height: 60px;
+  pointer-events: none;
+  z-index: 120;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Cleaning Tools: small sparkles */
+.mine-player-effect.clean-effect::before,
+.mine-player-effect.clean-effect::after {
+  content: "✨";
+  font-size: 16px;
+  position: absolute;
+  animation: clean-sparkle 1s infinite ease-in-out;
+}
+.mine-player-effect.clean-effect::after {
+  left: 10px;
+  animation-delay: 0.5s;
+}
+@keyframes clean-sparkle {
+  0% {
+    transform: translateY(0) scale(0.5);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateY(-15px) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-30px) scale(0.5);
+    opacity: 0;
+  }
+}
+
+/* Mining Ores: pickaxe strike or rocks */
+.mine-player-effect.mine-effect::before,
+.mine-player-effect.mine-effect::after {
+  content: "⛏️";
+  font-size: 18px;
+  position: absolute;
+  animation: mine-strike 0.8s infinite;
+}
+.mine-player-effect.mine-effect::after {
+  left: 12px;
+  animation-delay: 0.4s;
+}
+@keyframes mine-strike {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-10px) rotate(-20deg);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+/* Selling Ores: coin sparkle */
+.mine-player-effect.sell-effect::before,
+.mine-player-effect.sell-effect::after {
+  content: "💰";
+  font-size: 16px;
+  position: absolute;
+  animation: sell-coin 1s infinite ease-in-out;
+}
+.mine-player-effect.sell-effect::after {
+  left: 10px;
+  animation-delay: 0.5s;
+}
+@keyframes sell-coin {
+  0% {
+    transform: translateY(0) scale(0.5);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateY(-20px) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-40px) scale(0.5);
+    opacity: 0;
+  }
+}
+
+/* Resting: floating zZz */
+.mine-player-effect.rest-effect::after {
+  content: "💤";
+  font-size: 20px;
+  animation: rest-float 1.5s infinite;
+}
+@keyframes rest-float {
+  0% {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-20px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-40px);
+    opacity: 0.6;
+  }
+}
+
+/* ===========================
+   DUNGEON MAP
+=========================== */
+.dungeon-map {
+  position: relative;
+  width: 1000px;
+  height: 600px;
+  border: 2px solid #333;
+  border-radius: 12px;
+  overflow: hidden;
+
+  background-image: url("./assets/Indoor/Dungeon.jpg");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+
+  margin: 0 auto;
+}
+
+/* ===========================
+   PLAYER AVATAR 
+=========================== */
+.dungeon-map .player-avatar {
+  width: 40px !important;
+  height: 60px !important;
+  position: absolute;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+
+/* ===========================
+   CONTROLS
+=========================== */
+.dungeon-container .controls {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 9999;
+}
+
+.dungeon-container .controls button {
+  background: #444;
+  width: 50px;
+  height: 50px;
+  margin: 3px;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  border-radius: 8px;
+  color: #fff;
+}
+.dungeon-container .controls button:hover {
+  background: #555;
+}
+
+/* ===========================
+   ACTION PANEL 
+=========================== */
+.dungeon-action-panel {
+  position: absolute;
+  right: 20px;
+  bottom: 180px;
+  width: 240px;
+  background: rgba(25, 25, 25, 0.92);
+  padding: 16px;
+  border-radius: 10px;
+  border: 2px solid #444;
+
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dungeon-action-panel .action-btn {
+  background: #3b82f6;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.dungeon-action-panel .action-btn:hover {
+  background: #2563eb;
+}
+
+/* ===========================
+   ACTIVITY OVERLAY
+=========================== */
+.dungeon-activity-overlay {
+  position: absolute;
+  right: 20px;
+  top: 200px;
+  width: 240px;
+
+  background: rgba(0, 0, 0, 0.85);
+  padding: 16px;
+  border-radius: 12px;
+  border: 2px solid #333;
+  margin-bottom: 10px;
+
+  text-align: center;
+  z-index: 9998;
+}
+
+.dungeon-activity-overlay h2 {
+  font-size: 20px;
+  margin-bottom: 6px;
+  color: #ffe9a9;
+}
+
+.dungeon-activity-overlay div {
+  font-size: 18px;
+}
+
+/* ===========================
+   PLAYER ACTIVITY EFFECTS 
+=========================== */
+.dungeon-player-effect {
+  position: absolute;
+  width: 40px;
+  height: 60px;
+  pointer-events: none;
+  z-index: 120;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dungeon-player-effect.attack-effect {
+  position: absolute;
+  font-size: 32px;
+  animation: attackAnim 0.6s infinite;
+}
+
+@keyframes attackAnim {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-25px) scale(1.3);
+    opacity: 0;
+  }
+}
+
+.dungeon-player-effect.attack-effect::before {
+  content: "⚔️";
+}
+
+.dungeon-player-effect.gold-effect {
+  position: absolute;
+  font-size: 32px;
+  animation: goldAnim 0.8s infinite;
+}
+
+@keyframes goldAnim {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-30px) scale(1.2);
+    opacity: 0;
+  }
+}
+
+.dungeon-player-effect.gold-effect::before {
+  content: "💰";
+}
+
+.dungeon-player-effect.explore-effect {
+  position: absolute;
+  font-size: 32px;
+  animation: exploreAnim 1s infinite;
+}
+
+@keyframes exploreAnim {
+  0% {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+}
+
+.dungeon-player-effect.explore-effect::before {
+  content: "🧭";
+}
+
+/* ===========================
+   HOSPITAL MAP
+=========================== */
+
+.hospital-map {
+  position: relative;
+  width: 736px;
+  height: 736px;
+
+  border: 2px solid #333;
+  border-radius: 12px;
+  overflow: hidden;
+
+  background-repeat: no-repeat;
+
+  margin: 0 auto;
+  transform: scale(0.7);
+  transform-origin: center;
+}
+
+.hospital-map img {
+  width: 40px !important;
+  height: 60px !important;
+  position: absolute;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+
+/* ===========================
+   CONTROLS
+=========================== */
+
+.hospital-container .controls {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  z-index: 9999;
+}
+
+.hospital-container .controls button {
+  background: #444;
+  width: 50px;
+  height: 50px;
+  margin: 3px;
+
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  border-radius: 8px;
+  color: #fff;
+}
+
+.hospital-container .controls button:hover {
+  background: #555;
+}
+
+/* ===========================
+   ACTION PANEL
+=========================== */
+
+.hospital-action-panel {
+  position: absolute;
+  right: 20px;
+  bottom: 180px;
+
+  width: 240px;
+  background: rgba(25, 25, 25, 0.92);
+  padding: 16px;
+  border-radius: 10px;
+  border: 2px solid #444;
+
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.hospital-action-panel .action-btn {
+  background: #3b82f6;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.hospital-action-panel .action-btn:hover {
+  background: #2563eb;
+}
+
+/* ===========================
+   ACTIVITY OVERLAY
+=========================== */
+
+.activity-overlay {
+  position: absolute;
+  right: 20px;
+  top: 200px;
+  width: 240px;
+
+  background: rgba(0, 0, 0, 0.85);
+  padding: 16px;
+  border-radius: 12px;
+  border: 2px solid #333;
+  margin-bottom: 10px;
+
+  text-align: center;
+  z-index: 9998;
+}
+
+.activity-overlay h2 {
+  font-size: 20px;
+  margin-bottom: 6px;
+  color: #ffe9a9;
+}
+
+.activity-overlay div {
+  font-size: 18px;
+}
+
+.fast-forward-btn {
+  margin-top: 8px;
+  padding: 6px 12px;
+  background: #ffcc4d;
+
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.fast-forward-btn:hover {
+  background: #ffd966;
+}
+
+/* ===========================
+   HOSPITAL ACTIVITY EFFECTS
+=========================== */
+
+.hospital-player-effect {
+  position: absolute;
+  width: 40px;
+  height: 60px;
+  pointer-events: none;
+  z-index: 120;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* CHECKUP — CLEAN EFFECT (sparkles) */
+.hospital-player-effect.clean-effect::after {
+  content: "✨";
+  font-size: 22px;
+  animation: clean-sparkle 1s infinite;
+}
+@keyframes clean-sparkle {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-15px) scale(1.4);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-30px) scale(1);
+    opacity: 0.6;
+  }
+}
+
+/* REST — SLEEP EFFECT */
+.hospital-player-effect.rest-effect::after {
+  content: "💤";
+  font-size: 22px;
+  animation: rest-float 1.5s infinite;
+}
+@keyframes rest-float {
+  0% {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-20px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-40px);
+    opacity: 0.6;
+  }
+}
+
+/* DONATE BLOOD — BLOOD DROP EFFECT */
+.hospital-player-effect.mine-effect::after {
+  content: "🩸";
+  font-size: 22px;
+  animation: blood-pulse 0.8s infinite;
+}
+@keyframes blood-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+}
+
+/* ===========================
+   RAMEN MAP
+=========================== */
+.ramen-map {
+  position: relative;
+  width: 720px;
+  height: 562px;
+
+  border: 2px solid #333;
+  border-radius: 12px;
+  overflow: hidden;
+
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  margin: 0 auto;
+}
+
+/* ===========================
+   PLAYER AVATAR
+=========================== */
+.ramen-map .player-avatar {
+  width: 40px !important;
+  height: 60px !important;
+  position: absolute;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+
+/* ===========================
+   CONTROLS
+=========================== */
+.ramen-container .controls {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  z-index: 9999;
+}
+
+.ramen-container .controls button {
+  background: #444;
+  width: 50px;
+  height: 50px;
+  margin: 3px;
+
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  border-radius: 8px;
+  color: #fff;
+}
+
+.ramen-container .controls button:hover {
+  background: #555;
+}
+
+/* ===========================
+   ACTION PANEL
+=========================== */
+.ramen-action-panel {
+  position: absolute;
+  right: 20px;
+  bottom: 180px;
+
+  width: 240px;
+  background: rgba(25, 25, 25, 0.92);
+  padding: 16px;
+  border-radius: 10px;
+  border: 2px solid #444;
+
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ramen-action-panel .action-btn {
+  background: #3b82f6;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.ramen-action-panel .action-btn:hover {
+  background: #2563eb;
+}
+
+/* ===========================
+   ACTIVITY OVERLAY
+=========================== */
+.ramen-activity-overlay {
+  position: absolute;
+  right: 20px;
+  top: 200px;
+  width: 240px;
+
+  background: rgba(0, 0, 0, 0.85);
+  padding: 16px;
+  border-radius: 12px;
+  border: 2px solid #333;
+  margin-bottom: 10px;
+
+  text-align: center;
+  z-index: 9998;
+}
+
+.ramen-activity-overlay h2 {
+  font-size: 20px;
+  margin-bottom: 6px;
+  color: #ffe9a9;
+}
+
+.ramen-activity-overlay div {
+  font-size: 18px;
+}
+
+/* ============================================
+LAYER ACTIVITY EFFECTS
+============================================ */
+
+.ramen-player-effect {
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 200;
+}
+
+/* ============================
+   BUY RAMEN
+============================ */
+.ramen-player-effect.eat-effect::after {
+  content: "🍜";
+  font-size: 25px;
+  animation: ramen-steam 1.2s infinite ease-in-out;
+}
+
+@keyframes ramen-steam {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0.8;
+  }
+  40% {
+    transform: translateY(-10px) scale(1.15);
+    opacity: 1;
+  }
+  80% {
+    transform: translateY(-20px) scale(0.9);
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ============================
+   CHAT WITH OWNER
+============================ */
+.ramen-player-effect.chat-effect::after {
+  content: "💬";
+  font-size: 25px;
+  animation: chat-pop 0.9s infinite;
+}
+
+@keyframes chat-pop {
+  0% {
+    opacity: 0.3;
+    transform: scale(0.7);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0.3;
+    transform: scale(0.7);
+  }
+}
+
+/* ============================
+   PART-TIME WORK
+============================ */
+.ramen-player-effect.work-effect::after {
+  content: "💼";
+  font-size: 25px;
+  animation: work-punch 0.5s infinite;
+}
+
+@keyframes work-punch {
+  0% {
+    transform: translateX(0) rotate(0deg);
+  }
+  30% {
+    transform: translateX(-4px) rotate(-8deg);
+  }
+  60% {
+    transform: translateX(4px) rotate(8deg);
+  }
+  100% {
+    transform: translateX(0) rotate(0deg);
+  }
+}
+
+/* ===========================
+   RESPONSIVE LAYOUT
+=========================== */
+
+@media (max-width: 768px) {
+  body {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .app-root {
+    height: auto;
+  }
+
+  .main {
+    height: auto;
+    flex-direction: column;
+  }
+
+  .status {
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 2px solid #333;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+
+  #map {
+    width: 100%;
+    height: 180px;
+  }
+
+  .loc {
+    width: 40px;
+    height: 40px;
+    font-size: 10px;
+    transform: scale(0.55);
+    transform-origin: top left;
+  }
+
+  .loc .koko img {
+    width: 48px;
+    height: auto;
+  }
+
+  #player {
+    width: 26px;
+    height: 38px;
+    transform: scale(0.6);
+    transform-origin: top left;
+  }
+
+  .player-avatar {
+    width: 26px !important;
+    height: 38px !important;
+  }
+
+  .player-name {
+    width: 70px;
+    font-size: 10px;
+    bottom: 45px;
+    margin-left: -22px;
+  }
+
+  .dropped-item {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 5%;
+    height: auto;
+    font-size: 2vw;
+  }
+
+  .controls {
+    position: fixed;
+    flex-direction: row;
+    align-items: center;
+    top: auto;
+    bottom: 5px;
+    right: 50%;
+    transform: translateX(50%);
+  }
+
+  .controls button {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+    margin: 2px;
+  }
+
+  .action-panel {
+    position: fixed;
+    left: 50%;
+    bottom: 60px;
+    transform: translateX(-50%);
+    z-index: 999;
+    padding: 10px 14px;
+    gap: 10px;
+  }
+
+  .header {
+    flex-direction: row;
+    height: auto;
+    padding: 10px;
+    gap: 5px;
+  }
+
+  .header .left,
+  .header .right {
+    gap: 5px;
+    flex-wrap: wrap;
+    flex-direction: column;
+  }
+
+  .header .title {
+    font-size: 18px;
+    text-align: center;
+    width: 100%;
+  }
+}
+
+/* ==========================================
+   HOME PAGE RESPONSIVE (≤768px)
+========================================== */
+@media (max-width: 768px) {
+  /* ROOT */
+  .home-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .home-map {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 736 / 552;
+    background-size: 100% 100% !important;
+    background-repeat: no-repeat;
+    position: relative !important;
+  }
+
+  .home-map .player-avatar {
+    width: 38px !important;
+    height: auto !important;
+    transform: translate(-50%, -50%);
+    position: absolute !important;
+  }
+
+  .player-effect {
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+  }
+
+  .home-action-panel {
+    position: fixed;
+    left: 50%;
+    bottom: 60px;
+    transform: translateX(-50%);
+    z-index: 999;
+
+    padding: 10px 14px;
+    border-radius: 10px;
+    display: flex;
+    gap: 10px;
+  }
+
+  .home-action-panel .action-btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .activity-overlay {
+    width: 85%;
+    position: fixed;
+    top: 140px;
+    right: 50%;
+    transform: translateX(50%);
+    padding: 18px;
+    z-index: 140;
+    text-align: center;
+  }
+
+  .activity-overlay h2 {
+    font-size: 18px;
+  }
+
+  .fast-forward-btn {
+    width: 100%;
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .home-container .controls {
+    position: fixed;
+    flex-direction: row;
+    align-items: center;
+    top: auto;
+    bottom: 5px;
+    right: 50%;
+    transform: translateX(50%);
+  }
+
+  .home-container .controls button {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+    margin: 2px;
+  }
+}
+
+/* ==========================================
+   MINE PAGE RESPONSIVE (≤768px)
+========================================== */
+@media (max-width: 768px) {
+  .mine-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .mine-map {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 900 / 520;
+    background-size: 100% 100% !important;
+    background-repeat: no-repeat;
+    position: relative !important;
+  }
+
+  .mine-map .player-avatar {
+    width: 38px !important;
+    height: auto !important;
+    transform: translate(-50%, -50%);
+    position: absolute !important;
+  }
+
+  .mine-player-effect {
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    position: absolute;
+  }
+
+  .mine-action-panel {
+    position: fixed;
+    left: 50%;
+    bottom: 60px;
+    transform: translateX(-50%);
+    z-index: 999;
+
+    padding: 10px 14px;
+    border-radius: 10px;
+    display: flex;
+    gap: 10px;
+  }
+
+  .mine-action-panel .action-btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .mine-activity-overlay {
+    width: 85%;
+    position: fixed;
+    top: 140px;
+    right: 50%;
+    transform: translateX(50%);
+    padding: 18px;
+    z-index: 140;
+    text-align: center;
+  }
+
+  .mine-activity-overlay h2 {
+    font-size: 18px;
+  }
+
+  .fast-forward-btn {
+    width: 100%;
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .mine-container .controls {
+    position: fixed;
+    flex-direction: row;
+    align-items: center;
+    top: auto;
+    bottom: 5px;
+    right: 50%;
+    transform: translateX(50%);
+  }
+
+  .mine-container .controls button {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+    margin: 2px;
+  }
+}
+
+/* ==========================================
+   DUNGEON PAGE RESPONSIVE (≤768px) - MIRIP MINE
+========================================== */
+@media (max-width: 768px) {
+  .dungeon-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .dungeon-map-wrapper {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 925 / 529;
+    position: relative;
+    transform-origin: top center;
+  }
+
+  .dungeon-map {
+    width: 100% !important;
+    height: 100% !important;
+    background-size: 100% 100% !important;
+    background-repeat: no-repeat;
+    position: relative !important;
+    z-index: 1;
+  }
+
+  .dungeon-map .player-avatar {
+    width: 20px !important;
+    height: auto !important;
+    position: absolute !important;
+    transform: translate(-50%, -50%);
+  }
+
+  .dungeon-player-effect {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+  }
+
+  .dungeon-action-panel {
+    position: fixed;
+    left: 50%;
+    bottom: 60px;
+    transform: translateX(-50%);
+    z-index: 999;
+    padding: 10px 14px;
+    border-radius: 10px;
+    display: flex;
+    gap: 10px;
+  }
+
+  .dungeon-action-panel .action-btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .activity-overlay {
+    width: 85%;
+    position: fixed;
+    top: 140px;
+    right: 50%;
+    transform: translateX(50%);
+    padding: 18px;
+    z-index: 140;
+    text-align: center;
+  }
+
+  .activity-overlay h2 {
+    font-size: 18px;
+  }
+
+  .fast-forward-btn {
+    width: 100%;
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .dungeon-container .controls {
+    position: fixed;
+    flex-direction: row;
+    align-items: center;
+    top: auto;
+    bottom: 5px;
+    right: 50%;
+    transform: translateX(50%);
+  }
+
+  .dungeon-container .controls button {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+    margin: 2px;
+  }
+}
+
+/* ==========================================
+   HOSPITAL PAGE RESPONSIVE (≤768px)
+========================================== */
+@media (max-width: 768px) {
+  .hospital-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hospital-map-wrapper {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 736 / 736;
+    overflow: hidden;
+    transform: none !important;
+  }
+
+  .hospital-map {
+    width: 100% !important;
+    height: 100% !important;
+    background-size: 100% 100% !important;
+    background-repeat: no-repeat;
+    position: relative !important;
+  }
+
+  .hospital-map .player-avatar {
+    width: 38px !important;
+    height: auto !important;
+    transform: translate(-50%, -50%);
+    position: absolute !important;
+  }
+
+  .hospital-player-effect {
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    position: absolute;
+  }
+
+  .hospital-action-panel {
+    position: fixed;
+    left: 50%;
+    bottom: 60px;
+    transform: translateX(-50%);
+    z-index: 999;
+    padding: 10px 14px;
+    border-radius: 10px;
+    display: flex;
+    gap: 10px;
+  }
+
+  .hospital-action-panel .action-btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .activity-overlay {
+    width: 85%;
+    position: fixed;
+    top: 140px;
+    right: 50%;
+    transform: translateX(50%);
+    padding: 18px;
+    z-index: 140;
+    text-align: center;
+  }
+
+  .activity-overlay h2 {
+    font-size: 18px;
+  }
+
+  .fast-forward-btn {
+    width: 100%;
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .hospital-container .controls {
+    position: fixed;
+    flex-direction: row;
+    align-items: center;
+    top: auto;
+    bottom: 5px;
+    right: 50%;
+    transform: translateX(50%);
+  }
+
+  .hospital-container .controls button {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+    margin: 2px;
+  }
+}
+
+/* ==========================================
+   RAMEN PAGE RESPONSIVE (≤768px)
+========================================== */
+@media (max-width: 768px) {
+  .ramen-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .ramen-map {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 720 / 562;
+    background-size: 100% 100% !important;
+    background-repeat: no-repeat;
+    position: relative !important;
+    margin: auto;
+  }
+
+  .ramen-map .player-avatar {
+    width: 38px !important;
+    height: auto !important;
+    transform: translate(-50%, -50%);
+    position: absolute !important;
+  }
+
+  .ramen-player-effect {
+    width: 40px;
+    height: 40px;
+    transform: translate(-50%, -50%);
+    position: absolute;
+  }
+
+  .ramen-action-panel {
+    position: fixed;
+    left: 50%;
+    bottom: 60px;
+    transform: translateX(-50%);
+    z-index: 999;
+    padding: 10px 14px;
+    border-radius: 10px;
+    display: flex;
+    gap: 10px;
+  }
+
+  .ramen-action-panel .action-btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .activity-overlay {
+    width: 85%;
+    position: fixed;
+    top: 140px;
+    right: 50%;
+    transform: translateX(50%);
+    padding: 18px;
+    z-index: 140;
+    text-align: center;
+  }
+
+  .activity-overlay h2 {
+    font-size: 18px;
+  }
+
+  .fast-forward-btn {
+    width: 100%;
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .ramen-container .controls {
+    position: fixed;
+    flex-direction: row;
+    align-items: center;
+    top: auto;
+    bottom: 5px;
+    right: 50%;
+    transform: translateX(50%);
+    z-index: 999;
+  }
+
+  .ramen-container .controls button {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+    margin: 2px;
+  }
+}
